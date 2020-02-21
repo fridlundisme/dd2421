@@ -7,6 +7,16 @@ Word | Description
 Inference | Thing
 Quantative variables | Numerical values
 Qualitative variables | Classes / categories
+Bias | Refers to the error that is introduced by approximating a real-life problem by a simpler model. Generally, *more flexible* methods result in *less bias*.
+Variance | Irreductible. Refers to the amount by which $\hat{f}$ would change if we cestimated it using a different training data set. High variance means that *small* changes in training data results in la*rge changes in $\hat{f}$*
+Overfitting | 
+
+
+Type of ML-problem | Description | Example
+---- | ---- | ---- |
+Classification | Pick one of N labels | Cats,dogs,horse
+Regression | Predict numerical values | Clich-through rate
+Clustering | group similar examples | most relevant documents (unsupervised)
 
 ## Estimate $f$
 
@@ -20,6 +30,7 @@ Can be easy to understand relationship between $Y$ and $X_1,X_2,X_p$.
 #### Prediction
 
 Flexible approaches can lead to complicated estimates of $f$. Being difficult to understand how an individual predictor is associated with the response.
+
 ![Tradeoff between Flexibility and interperability](tradeoff_flex_interperability.png)
 
 ### How Do We Estimate $f?$
@@ -35,6 +46,23 @@ Flexible approaches can lead to complicated estimates of $f$. Being difficult to
 ##### Unsupervised Learning
 
 ### Regression Versus Classification Problems
+
+#### Regression
+
+A regression model predicts continuous values. For example, regression models make predictions that answer questions like the following:
+
+* What is the value of a house in California?
+
+* What is the probability that a user will click on this ad?
+
+#### Classification
+
+A classification model predicts discrete values. For example, classification models make predictions that answer questions like the following:
+
+* Is a given email message spam or not spam?
+
+* Is this an image of a dog, a cat, or a hamster?
+
 
 ### Regression Problems
 
@@ -74,3 +102,8 @@ Computing test MSE is conciderably more difficult than training MSE because, usu
 Often having qualitative responses.
 
 ## The Bias-Variance Trade-Off
+
+### Error Due to Bias
+
+
+### Error Due to Variance

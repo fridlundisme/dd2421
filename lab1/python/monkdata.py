@@ -25,7 +25,6 @@ attributes = (Attribute('A1', (1, 2, 3)),
               Attribute('A5', (1, 2, 3, 4)),
               Attribute('A6', (1, 2)))
 
-
 monk1 = (
  Sample(True,  (1, 1, 1, 1, 3, 1), 5),
  Sample(True,  (1, 1, 1, 1, 3, 2), 6),
