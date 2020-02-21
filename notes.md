@@ -4,19 +4,19 @@
 
 Word | Description
 ------- | -------
-Inference | Thing
+Inference | The process of making predictions by applying the trained model to unlabeled examples.
 Quantative variables | Numerical values
 Qualitative variables | Classes / categories
-Bias | Refers to the error that is introduced by approximating a real-life problem by a simpler model. Generally, *more flexible* methods result in *less bias*.
-Variance | Irreductible. Refers to the amount by which $\hat{f}$ would change if we cestimated it using a different training data set. High variance means that *small* changes in training data results in la*rge changes in $\hat{f}$*
-Overfitting | 
+Bias | Bias is the difference between the average prediction of our model and the correct value which we are trying to predict. Model with high bias pays very little attention to the training data and oversimplifies the model. It always leads to high error on training and test data. Generally, *more flexible* methods result in *less bias*.
+Variance | Irreductible. Variance is the variability of model prediction for a given data point or a value which tells us spread of our data. Model with high variance pays a lot of attention to training data and does not generalize on the data which it hasn’t seen before. Refers to the amount by which $\hat{f}$ would change if we cestimated it using a different training data set. High variance means that *small* changes in training data results in la*rge changes in $\hat{f}$*
+Overfitting | Creating a model that matches the training data so closely that the model fails to make correct predictions on new data.
 
 
 Type of ML-problem | Description | Example
 ---- | ---- | ---- |
-Classification | Pick one of N labels | Cats,dogs,horse
-Regression | Predict numerical values | Clich-through rate
-Clustering | group similar examples | most relevant documents (unsupervised)
+Classification | Pick one of N labels (continuous) | Cats,dogs,horse
+Regression | Predict numerical values (discrete) | Clich-through rate
+Clustering | Group similar examples | most relevant documents (unsupervised)
 
 ## Estimate $f$
 
@@ -31,7 +31,7 @@ Can be easy to understand relationship between $Y$ and $X_1,X_2,X_p$.
 
 Flexible approaches can lead to complicated estimates of $f$. Being difficult to understand how an individual predictor is associated with the response.
 
-![Tradeoff between Flexibility and interperability](tradeoff_flex_interperability.png)
+![Tradeoff between Flexibility and interperability](resources/tradeoff_flex_interperability.png)
 
 ### How Do We Estimate $f?$
 
@@ -87,7 +87,7 @@ This is also known as *Training MSE* since it used training data to fit te model
 
 ##### Test MSE
 
-![Training vs Test MSE](test_vs_training_mse.png)
+![Training vs Test MSE](resources/test_vs_training_mse.png)
 As model flexibility increases, training MSE will decrease, but the test MSE may not. This example is said to be *overfitting* the data, since its training MSE is decreasing and test MSE aren't.
 This happens because our statistical learning procedure is working too hard to find patterns in the training data, and may be picking up some patterns that are just caused by random chance rather than by true properties of the unknown function *f*.
 
@@ -107,3 +107,16 @@ Often having qualitative responses.
 
 
 ### Error Due to Variance
+
+## Support Vector Machines
+
+### Support Vector Classifiers
+
+#### Support Vector Definition
+When classifying with hyperplanes - support vectors are observations that lie directly on the margin, or on the wrong side of the margin for their class.
+These are the only observations that affect the support vector classifier.
+##### Bias-Variance Trade-Off
+If you have *many observations involved* in determining the hyperplane ($C$ is large), you get *lower variance* since many observations are support vectors.
+Small changes in the observations will *NOT* affect the hyperplane that much.
+
+On the other hand: *few observations involved* in determining the same ($C$ is small), you get *higher variance* since few observations are support vectors.
