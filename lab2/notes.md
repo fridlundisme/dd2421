@@ -1,5 +1,39 @@
-The dual form of the problem is to find the values of $\alpha_i$ which minimizes:
+### Problem
 
-$$
-\frac{1}{2}\sum_{i}\sum_{i}a_ia_jt_it_j\mathcal{K}(\vec{x_i}, \vec{x_j})-\sum_{i}\alpha_i
-$$
+1. Move the clusters around and change their sizes to make it easier or
+harder for the classifier to find a decent boundary. Pay attention
+to when the optimizer (minimize function) is not able to find a
+solution at all.
+
+### Answer
+
+
+### Problem
+
+2. Implement the two non-linear kernels. You should be able to clas-
+sify very hard data sets with these.
+
+### Answer
+
+### Problem 
+
+3. The non-linear kernels have parameters; explore how they influence
+the decision boundary. Reason about this in terms of the bias-
+variance trade-off.
+
+### Answer
+
+### Problem
+
+4. Explore the role of the slack parameter C. What happens for very
+large/small values?
+
+### Answer
+
+### Problem
+
+5. Imagine that you are given data that is not easily separable. When
+should you opt for more slack rather than going for a more complex
+model (kernel) and vice versa?
+
+### Answer
