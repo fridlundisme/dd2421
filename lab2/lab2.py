@@ -3,13 +3,14 @@ import random, math
 from scipy.optimize import minimize
 import matplotlib.pyplot as plt
 import itertools
+import datapoints as dt
 
-np.random.seed(100)
 
-classA = np.concatenate(
-    (np.random.randn(10,2) * 0.2 + [1.5,0.5], 
-    np.random.randn(10,2) * 0.2 + [-1.5, 0.5]))
-classB = np.random.randn(20, 2) * 0.2 + [0.0, -0.5]
+# Chosing dataset
+# dt.basic_data()
+# dt.spread_data()
+classA, classB = dt.basic_data()
+
 inputs = np.concatenate((classA,classB))
 t = np.concatenate((np.ones(classA.shape[0]), -np.ones(classB.shape[0])))
 N = inputs.shape[0] # Number of rows (samples)
@@ -20,10 +21,17 @@ inputs = inputs[permute,:]
 t = t[permute]
 P = np.empty([N,N])
 
-def kernel(x1,x2):
+def lin_kernel(x1,x2):
     return np.dot(x1,x2)
 
-def precompute():
+def poly_kernel(x1,x2, p=3):
+    return np.power((np.dot(x1,x2) + 1), p)
+
+def radi_kernel(x1,x2, sigma=3):
+    diff = np.subtract(x1, x2)
+    return math.exp((-np.dot(diff, diff)) / (2*math.pow(sigma, 2)))
+
+def precompute(kernel):
     T = []
     for i in range(N):
         pTemp = []
@@ -41,30 +49,37 @@ def objective(vector_a):
             alpha_sum += sum
     return alpha_sum
 
-
 def zerofun(vector_a):
     return np.dot(vector_a,inputs)
 
-def indicator(x, y, supportVectors):
-    b = threshold(supportVectors)
+def indicator(x, y, supportVectors, kernel):
+    b = threshold(supportVectors, kernel)
     sum = 0
     for vector in supportVectors:
         sum += np.dot(np.dot(vector[0],vector[2]),kernel(np.array([x,y]),vector[1]))
     return sum - b
 
-def threshold(sv):
+def threshold(sv, kernel):
+    if len(sv) == 0:
+        return 0
     s0 = sv[0][1]
     sum = 0
+
 
     for vector in sv:
         sum += np.dot(np.dot(vector[0],vector[2]),kernel(s0,vector[1]))
     return sum - sv[0][2]
 
 if __name__ == "__main__":
+    # Chosing kernel
+    # kernel = lin_kernel
+    # kernel = poly_kernel
+    kernel = radi_kernel
+    
+    P = precompute(kernel)
 
-    P = precompute()
     XC={'type':'eq','fun':zerofun}
-    C = 10
+    C = 0.7
     B = [(0,C) for b in range(N)]
     start = np.zeros(N)
     cutoff = math.pow(10,-5)
@@ -77,13 +92,10 @@ if __name__ == "__main__":
         if a >= cutoff:
             supportVectors.append([a,inputs[i],t[i]])
 
-    b = threshold(supportVectors)
-    
-
     xgrid = np.linspace(-5,5)
     ygrid = np.linspace(-4,4)
     
-    grid = np.array([[indicator(x,y,supportVectors)
+    grid = np.array([[indicator(x,y,supportVectors, kernel)
                     for x in xgrid]
                     for y in ygrid])
 
@@ -99,7 +111,10 @@ if __name__ == "__main__":
     plt.plot([p[0] for p in classB],
         [p[1] for p in classB],
         'r.')
-
-
+    cS = str(C)
+    plotname = "C: %f, kernel: %s" % (C,kernel.__name__)
+    plt.title(plotname)
     plt.axis('equal') # Force same scale on both axes
+
+    plt.savefig('plots/basic_data/%s' % (plotname))
     plt.show()
