@@ -8,8 +8,9 @@ import datapoints as dt
 
 # Chosing dataset
 # dt.basic_data()
+# dt.clustered_data()
 # dt.spread_data()
-classA, classB = dt.basic_data()
+classA, classB = dt.spread_data()
 
 inputs = np.concatenate((classA,classB))
 t = np.concatenate((np.ones(classA.shape[0]), -np.ones(classB.shape[0])))
@@ -74,12 +75,12 @@ if __name__ == "__main__":
     # Chosing kernel
     # kernel = lin_kernel
     # kernel = poly_kernel
-    kernel = radi_kernel
+    kernel = lin_kernel
     
     P = precompute(kernel)
 
     XC={'type':'eq','fun':zerofun}
-    C = 0.7
+    C = 10
     B = [(0,C) for b in range(N)]
     start = np.zeros(N)
     cutoff = math.pow(10,-5)
@@ -111,10 +112,10 @@ if __name__ == "__main__":
     plt.plot([p[0] for p in classB],
         [p[1] for p in classB],
         'r.')
-    cS = str(C)
-    plotname = "C: %f, kernel: %s" % (C,kernel.__name__)
+
+    plotname = "C: %0.2f, kernel: %s" % (C,kernel.__name__)
     plt.title(plotname)
     plt.axis('equal') # Force same scale on both axes
 
-    plt.savefig('plots/basic_data/%s' % (plotname))
+    plt.savefig('plots/spread_data/%s.png' % (plotname))
     plt.show()
