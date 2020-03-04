@@ -100,10 +100,7 @@ def classifyBayes(X, prior, mu, sigma):
         logSigma = -(1/2) * np.log(np.linalg.det(sigma[jdx]))
         diff = X - mu[jdx]
         for x in range(Npts):
-            logProb[jdx][x] = logSigma - (1/2)(np.inner(diff[x] / np.diag(sigma[jdx]),diff[x])) + logPrior
-        pass
-
-
+            logProb[jdx][x] = logSigma - np.inner(diff[x]/np.diag(sigma[jdx]), diff[x]) / 2 + logPrior
 
     # one possible way of finding max a-posteriori once
     # you have computed the log posterior
