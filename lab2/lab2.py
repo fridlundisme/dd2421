@@ -8,9 +8,9 @@ import datapoints as dt
 
 # Chosing dataset
 # dt.basic_data()
-# dt.clustered_data()
+# dt.linear_data()
 # dt.spread_data()
-classA, classB = dt.spread_data()
+classA, classB = dt.linear_data()
 
 inputs = np.concatenate((classA,classB))
 t = np.concatenate((np.ones(classA.shape[0]), -np.ones(classB.shape[0])))
@@ -25,10 +25,10 @@ P = np.empty([N,N])
 def lin_kernel(x1,x2):
     return np.dot(x1,x2)
 
-def poly_kernel(x1,x2, p=3):
+def poly_kernel(x1,x2, p=2):
     return np.power((np.dot(x1,x2) + 1), p)
 
-def radi_kernel(x1,x2, sigma=3):
+def radi_kernel(x1,x2, sigma=1):
     diff = np.subtract(x1, x2)
     return math.exp((-np.dot(diff, diff)) / (2*math.pow(sigma, 2)))
 
@@ -75,7 +75,8 @@ if __name__ == "__main__":
     # Chosing kernel
     # kernel = lin_kernel
     # kernel = poly_kernel
-    kernel = lin_kernel
+    # kernel = radi_kernel
+    kernel = radi_kernel
     
     P = precompute(kernel)
 
@@ -117,5 +118,5 @@ if __name__ == "__main__":
     plt.title(plotname)
     plt.axis('equal') # Force same scale on both axes
 
-    plt.savefig('plots/spread_data/%s.png' % (plotname))
+    plt.savefig('plots/linear_data/%s.png' % (plotname))
     plt.show()

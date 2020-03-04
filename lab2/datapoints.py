@@ -10,11 +10,11 @@ def basic_data():
     classB = np.random.randn(20, 2) * 0.2 + [0.0, -0.5]
     return classA, classB
 
-def clustered_data():
+def linear_data():
     # Linearly separable points
     classA = np.concatenate(
-        (np.random.randn(10,2) * 0.2 + [0,-0.5],
-        np.random.randn(10,2) * 0.2 + [0, -0.5]))
+        (np.random.randn(10,2) * 0.2 + [1.5,-0.5],
+        np.random.randn(10,2) * 0.2 + [-1.5, 0]))
     classB = np.random.randn(20, 2) * 0.2 + [0.0, -0.5]
 
     return classA, classB
