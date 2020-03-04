@@ -40,6 +40,8 @@ def computePrior(labels, W=None):
 
     prior = np.zeros((Nclasses,1))
 
+    for jdx,c in enumerate(classes):
+        prior = len(c)/Npts
     return prior
 
 # NOTE: you do not need to handle the W argument for this part!
@@ -59,7 +61,6 @@ def mlParams(X, labels, W=None):
     mu = np.zeros((Nclasses,Ndims))
     my = np.zeros((Nclasses,Ndims))
     sigma = np.zeros((Nclasses,Ndims,Ndims))
-
 
     for jdx,c in enumerate(classes):
         idx = labels==c # Extract the indicies for which y==class is TRUE
