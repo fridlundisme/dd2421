@@ -60,6 +60,20 @@ def mlParams(X, labels, W=None):
     my = np.zeros((Nclasses,Ndims))
     sigma = np.zeros((Nclasses,Ndims,Ndims))
 
+
+    for jdx,c in enumerate(classes):
+        idx = labels==c # Extract the indicies for which y==class is TRUE
+        idx = np.where(labels==c)[0]
+        xlc = X[idx,:] # Get the x class for the class labels. Vectors are rows.
+        mu[jdx] = np.sum(xlc,axis=0)/len(idx)
+
+    for jdx,c in enumerate(classes):
+        idx = np.where(labels==c)[0]
+        xlc = X[idx,:]
+        diff = np.square(xlc - mu[jdx])
+        mean = np.sum(diff,axis=0) / len(idx)
+        sigma[jdx] = np.diag(mean)
+
     return mu, sigma
 
 # in:      X - N x d matrix of M data points
