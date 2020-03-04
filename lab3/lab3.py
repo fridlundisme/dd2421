@@ -97,7 +97,7 @@ def classifyBayes(X, prior, mu, sigma):
     
     for jdx in range(Nclasses):
         logPrior = np.log(prior[jdx])
-        logSigma = -(1/2) * np.log(np.linalg.det(sigma[jdx]))
+        logSigma = np.log(np.linalg.det(sigma[jdx])) / 2
         diff = X - mu[jdx]
         for x in range(Npts):
             logProb[jdx][x] = logSigma - np.inner(diff[x]/np.diag(sigma[jdx]), diff[x]) / 2 + logPrior
