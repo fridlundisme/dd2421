@@ -170,6 +170,7 @@ def plotGaussian(X,y,mu,sigma):
     plt.show()
 
 
+
 # The function below, `testClassifier`, will be used to try out the different datasets.
 # `fetchDataset` can be provided with any of the dataset arguments `wine`, `iris`, `olivetti` and `vowel`.
 # Observe that we split the data into a **training** and a **testing** set.

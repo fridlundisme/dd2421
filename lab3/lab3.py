@@ -49,6 +49,15 @@ def computePrior(labels, W=None):
 
     return prior
 
+def covariance(x, y):
+    x_, y_ = x.mean(),y.mean()
+    return np.sum( 1/len(x) * ((x - x_) * (y - y_)))
+
+def covariance_matrix(X, mu):
+
+    return np.dot()
+
+
 # NOTE: you do not need to handle the W argument for this part!
 # in:      X - N x d matrix of N data points
 #     labels - N vector of class labels
@@ -59,17 +68,27 @@ def mlParams(X, labels, W=None):
     Npts,Ndims = np.shape(X)
     classes = np.unique(labels)
     Nclasses = np.size(classes)
-
+    
     if W is None:
         W = np.ones((Npts,1))/float(Npts)
 
     mu = np.zeros((Nclasses,Ndims))
+    my = np.zeros((Nclasses,Ndims))
     sigma = np.zeros((Nclasses,Ndims,Ndims))
 
     # TODO: fill in the code to compute mu and sigma!
-    # ==========================
-    
-    # ==========================
+    for jdx,c in enumerate(classes):
+        idx = labels==c # Extract the indicies for which y==class is TRUE
+        idx = np.where(labels==c)[0]
+        xlc = X[idx,:] # Get the x class for the class labels. Vectors are rows.
+        mu[jdx] = np.sum(xlc,axis=0)/len(idx)
+
+    for jdx,c in enumerate(classes):
+        idx = np.where(labels==c)[0]
+        xlc = X[idx,:]
+        diff = np.square(xlc - mu[jdx])
+        mean = np.sum(diff,axis=0) / len(idx)
+        sigma[jdx] = np.diag(mean)
 
     return mu, sigma
 
