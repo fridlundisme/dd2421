@@ -14,10 +14,10 @@
 | 80 | 86.7 | 33.8 |
 | 90 | 93.3 | 29.9 |
 
-| Class | Mean Accuracy | Standard Deviation |
-| ---- | ---- | ---- |
-| Iris | 89.1 | 4.57 |
-| Vowel | 32.8 | 2.74 |
+| Class | Mean Acc (0.6) | Mean Acc (0.7) | Mean Acc (0.8) | SD (0.6) | SD (0.7) | SD (0.8) |
+| ---- | ---- | ---- | ----- | ----- | ----- | ----- |
+| Iris | 89.4 | 89.1 | 89.2 | 3.74 | 4.57 | 5.72 |
+| Vowel | 32.6 |  32.8 | 32.6 | 2.9 | 2.74 | 2.78 |
 
 ![Iris](plots/a3_iris.png)
 
@@ -25,7 +25,6 @@
 
 ### When can a feature independance assumption be resonable and when not?
 
-Moderate or large training set is available
 Features $x_i$ are (at least somewhat) independent
 * Text document classification
 * Medical diagnoses
