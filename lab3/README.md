@@ -23,7 +23,7 @@
 
 ![Vowel](plots/a3_vowel.png)
 
-### When can a feature independance assumption be resonable and when not?
+#### When can a feature independance assumption be resonable and when not?
 
 Features $x_i$ are (at least somewhat) independent
 * Text document classification
@@ -34,8 +34,15 @@ Bad when the features are very similar. Will ofer inflate the importance of that
 
 Unreliable when there are big differences in feature compared to training dataset. If the new attribute wasn't observed in training, then $P(x_i) = 0$
  
- ### How does the decision boundary look for the Iris dataset? How could one improve the classification results for this scenario by changing classifier or, alternatively, manipulating the data?
+ #### How does the decision boundary look for the Iris dataset? How could one improve the classification results for this scenario by changing classifier or, alternatively, manipulating the data?
 
  Between class 1 and 2 it's very good and it's understandable. Between 1 and 2 however, it's quite bad and that can also be understood by looking at the two classes. Taking in concideration this is a *naive* approach by definition, it's not hard to understand since the classifier will classify much "harder".
 
 Maybe a SVM as in last lab with polynomial kernel. Or adding more features that are more distinct from each other.
+
+### Assignment 5
+
+| Mean value / (split=0.7) | Iris Basic | Iris Boost | Vowel Basic | Vowel Boost | 
+| ----- | ----- | ----- | ----- | ----- |
+| Accuracy  | 89.1| 89.1 | 32.8 | 7.14 |
+| SD | 4.57 | 1.17 | 2.74 | 1.17 |

@@ -41,9 +41,11 @@ def computePrior(labels, W=None):
 
     prior = np.zeros((Nclasses,1))
 
+
     for jdx,c in enumerate(classes):
         idx = np.where(labels==c)[0]
-        prior[jdx] = np.sum(W[idx]) / np.sum(W)
+        prior[jdx] = len(idx) / len(labels)
+        # prior[jdx] = np.sum(W[idx]) / np.sum(W)
 
     return prior
 
@@ -63,22 +65,31 @@ def mlParams(X, labels, W=None):
         W = np.ones((Npts,1))/float(Npts)
 
     mu = np.zeros((Nclasses,Ndims))
-    my = np.zeros((Nclasses,Ndims))
     sigma = np.zeros((Nclasses,Ndims,Ndims))
 
-    # TODO: fill in the code to compute mu and sigma!
     for jdx,c in enumerate(classes):
         idx = labels==c # Extract the indicies for which y==class is TRUE
         idx = np.where(labels==c)[0]
-        xlc = X[idx,:] * W[idx]# Get the x class for the class labels. Vectors are rows.
-        mu[jdx] = np.sum(xlc,axis=0)/np.sum(W[idx])
+        xlc = X[idx,:] 
+        # * W[idx]# Get the x class for the class labels. Vectors are rows.
+        mu[jdx] = np.sum(xlc,axis=0)/ len(idx)
+        # np.sum(W[idx])
 
-    for jdx,c in enumerate(classes):
-        idx = np.where(labels==c)[0]
-        xlc = X[idx,:]
-        diff = np.square(xlc - mu[jdx]) * W[idx]
-        mean = np.sum(diff,axis=0) / np.sum(W[idx])
-        sigma[jdx] = np.diag(mean)
+
+    for jdx, c in enumerate(classes):
+        idx = np.where(labels == c)[0] # Vector of length C of indices for a given label class c
+        xlc = X[idx, :] # Matrix  C x d with samples in the class c
+        diff = xlc - mu[jdx] # Matrix  C x d with diffs between x - µ
+        diff = np.square(diff)
+        mean = np.sum(diff, axis=0) / len(idx)
+        sigma[jdx] = np.diag(mean) # Use diagonal matrix for Naive Bayes Classie
+
+    # for jdx,c in enumerate(classes):
+    #     idx = np.where(labels==c)[0]
+    #     xlc = X[idx,:]
+    #     diff = np.square(xlc - mu[jdx]) * W[idx]
+    #     mean = np.sum(diff,axis=0) / np.sum(W[idx])
+    #     sigma[jdx] = np.diag(mean)
 
     return mu, sigma
 
@@ -97,8 +108,8 @@ def classifyBayes(X, prior, mu, sigma):
         logPrior = np.log(prior[jdx])
         logSigma = np.log(np.linalg.det(sigma[jdx])) / 2
         diff = X - mu[jdx]
-        for x in range(Npts):
-            logProb[jdx][x] = logSigma - np.inner(diff[x]/np.diag(sigma[jdx]), diff[x]) / 2 + logPrior
+        for i in range(Npts):
+            logProb[jdx][i] = logSigma - np.inner(diff[i]/np.diag(sigma[jdx]), diff[i]) / 2 + logPrior
 
     # one possible way of finding max a-posteriori once
     # you have computed the log posterior
@@ -138,15 +149,15 @@ class BayesClassifier(object):
 # Call the `testClassifier` and `plotBoundary` functions for this part.
 
 
-# testClassifier(BayesClassifier(), dataset='iris', split=0.6)
+# testClassifier(BayesClassifier(), dataset='vowel', split=0.7)
 
 
 
-# testClassifier(BayesClassifier(), dataset='vowel', split=0.6)
+# testClassifier(BayesClassifier(), dataset='vowel', split=0.7)
 
 
 
-# plotBoundary(BayesClassifier(), dataset='iris',split=0.6)
+# plotBoundary(BayesClassifier(), dataset='vowel',split=0.7)
 
 
 # ## Boosting functions to implement
@@ -208,8 +219,8 @@ def classifyBoost(X, classifiers, alphas, Nclasses):
     else:
         votes = np.zeros((Npts,Nclasses))
 
-        for i,c in enumerate(classifiers):
-            classified = c.classify(X)
+        for i,T in enumerate(classifiers):
+            classified = T.classify(X)
             for j in range(Npts):
                 votes[j][classified[j]] += alphas[i]
 
@@ -244,15 +255,15 @@ class BoostClassifier(object):
 # Call the `testClassifier` and `plotBoundary` functions for this part.
 
 
-testClassifier(BoostClassifier(BayesClassifier(), T=10), dataset='iris',split=0.7)
+# testClassifier(BoostClassifier(BayesClassifier(), T=10), dataset='iris',split=0.7)
 
 
 
-#testClassifier(BoostClassifier(BayesClassifier(), T=10), dataset='vowel',split=0.7)
+# testClassifier(BoostClassifier(BayesClassifier(), T=10), dataset='iris',split=0.7)
 
 
 
-#plotBoundary(BoostClassifier(BayesClassifier()), dataset='iris',split=0.7)
+# plotBoundary(BoostClassifier(BayesClassifier()), dataset='iris',split=0.7)
 
 
 # Now repeat the steps with a decision tree classifier.
