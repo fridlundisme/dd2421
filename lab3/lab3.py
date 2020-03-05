@@ -28,7 +28,6 @@ import random
 # The lab descriptions state what each function should do.
 
 
-# NOTE: you do not need to handle the W argument for this part!
 # in: labels - N vector of class labels
 # out: prior - C x 1 vector of class priors
 def computePrior(labels, W=None):
@@ -44,13 +43,12 @@ def computePrior(labels, W=None):
 
     for jdx,c in enumerate(classes):
         idx = np.where(labels==c)[0]
-        prior[jdx] = len(idx)/Npts
+        prior[jdx] = np.sum(W[idx]) / np.sum(W)
 
     return prior
 
 
 
-# NOTE: you do not need to handle the W argument for this part!
 # in:      X - N x d matrix of N data points
 #     labels - N vector of class labels
 # out:    mu - C x d matrix of class means (mu[i] - class i mean)
@@ -72,14 +70,14 @@ def mlParams(X, labels, W=None):
     for jdx,c in enumerate(classes):
         idx = labels==c # Extract the indicies for which y==class is TRUE
         idx = np.where(labels==c)[0]
-        xlc = X[idx,:] # Get the x class for the class labels. Vectors are rows.
-        mu[jdx] = np.sum(xlc,axis=0)/len(idx)
+        xlc = X[idx,:] * W[idx]# Get the x class for the class labels. Vectors are rows.
+        mu[jdx] = np.sum(xlc,axis=0)/np.sum(W[idx])
 
     for jdx,c in enumerate(classes):
         idx = np.where(labels==c)[0]
         xlc = X[idx,:]
-        diff = np.square(xlc - mu[jdx])
-        mean = np.sum(diff,axis=0) / len(idx)
+        diff = np.square(xlc - mu[jdx]) * W[idx]
+        mean = np.sum(diff,axis=0) / np.sum(W[idx])
         sigma[jdx] = np.diag(mean)
 
     return mu, sigma
@@ -140,15 +138,15 @@ class BayesClassifier(object):
 # Call the `testClassifier` and `plotBoundary` functions for this part.
 
 
-# testClassifier(BayesClassifier(), dataset='iris', split=0.7)
+# testClassifier(BayesClassifier(), dataset='iris', split=0.6)
 
 
 
-testClassifier(BayesClassifier(), dataset='vowel', split=0.7)
+# testClassifier(BayesClassifier(), dataset='vowel', split=0.6)
 
 
 
-plotBoundary(BayesClassifier(), dataset='vowel',split=0.7)
+# plotBoundary(BayesClassifier(), dataset='iris',split=0.6)
 
 
 # ## Boosting functions to implement
@@ -178,13 +176,21 @@ def trainBoost(base_classifier, X, labels, T=10):
 
         # do classification for each point
         vote = classifiers[-1].classify(X)
+        err = 0
+        for jdx in np.unique(labels):
+            idx = np.where(jdx == vote)[0]
+            err += np.sum(np.transpose(wCur[idx]) * (1-(labels[idx] == jdx)))
 
-        # TODO: Fill in the rest, construct the alphas etc.
-        # ==========================
+        alpha = (np.log(1-err)-np.log(err)) / 2
+        alphas.append(alpha)
+
+        wPre = wCur
+        for i in range(Npts):
+            wPre[i] = (wPre[i] / wCur[i]) * np.exp(-1*alpha)
         
-        # alphas.append(alpha) # you will need to append the new alpha
-        # ==========================
-        
+        wCur = wCur / np.sum(wCur)
+
+
     return classifiers, alphas
 
 # in:       X - N x d matrix of N data points
@@ -202,11 +208,11 @@ def classifyBoost(X, classifiers, alphas, Nclasses):
     else:
         votes = np.zeros((Npts,Nclasses))
 
-        # TODO: implement classificiation when we have trained several classifiers!
-        # here we can do it by filling in the votes vector with weighted votes
-        # ==========================
-        
-        # ==========================
+        for i,c in enumerate(classifiers):
+            classified = c.classify(X)
+            for j in range(Npts):
+                votes[j][classified[j]] += alphas[i]
+
 
         # one way to compute yPred after accumulating the votes
         return np.argmax(votes,axis=1)
@@ -238,7 +244,7 @@ class BoostClassifier(object):
 # Call the `testClassifier` and `plotBoundary` functions for this part.
 
 
-#testClassifier(BoostClassifier(BayesClassifier(), T=10), dataset='iris',split=0.7)
+testClassifier(BoostClassifier(BayesClassifier(), T=10), dataset='iris',split=0.7)
 
 
 
