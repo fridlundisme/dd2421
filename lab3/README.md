@@ -44,5 +44,5 @@ Maybe a SVM as in last lab with polynomial kernel. Or adding more features that 
 
 | Mean value / (split=0.7) | Iris Basic | Iris Boost | Vowel Basic | Vowel Boost | 
 | ----- | ----- | ----- | ----- | ----- |
-| Accuracy  | 89.1| 89.1 | 32.8 | 7.14 |
-| SD | 4.57 | 1.17 | 2.74 | 1.17 |
+| Accuracy  | 89.0 | 94.1 | 64.7 | 80.2 |
+| SD | 4.16 | 6.72 | 4.03 | 3.52 |
