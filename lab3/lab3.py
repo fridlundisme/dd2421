@@ -21,6 +21,7 @@ from scipy import misc
 from imp import reload
 from labfuns import *
 import random
+import time
 
 
 # ## Bayes classifier functions to implement
@@ -247,7 +248,7 @@ class BoostClassifier(object):
 # testClassifier(BoostClassifier(BayesClassifier(), T=10), dataset='iris',split=0.7)
 
 
-# testClassifier(BoostClassifier(BayesClassifier(), T=10), dataset='vowel',split=0.7)
+# testClassifier(BoostClassifier(BayesClassifier(), T=10), dataset='iris',split=0.7)
 
 
 
@@ -257,7 +258,7 @@ class BoostClassifier(object):
 # Now repeat the steps with a decision tree classifier.
 
 
-#testClassifier(DecisionTreeClassifier(), dataset='iris', split=0.7)
+# testClassifier(DecisionTreeClassifier(), dataset='vowel', split=0.7)
 
 
 
@@ -265,19 +266,17 @@ class BoostClassifier(object):
 
 
 
-#testClassifier(DecisionTreeClassifier(), dataset='vowel',split=0.7)
+# testClassifier(DecisionTreeClassifier(), dataset='vowel',split=0.7)
+
+# testClassifier(BoostClassifier(DecisionTreeClassifier(), T=10), dataset='vowel',split=0.7)
 
 
 
-#testClassifier(BoostClassifier(DecisionTreeClassifier(), T=10), dataset='vowel',split=0.7)
+# plotBoundary(DecisionTreeClassifier(), dataset='vowel',split=0.7)
 
 
 
-#plotBoundary(DecisionTreeClassifier(), dataset='iris',split=0.7)
-
-
-
-#plotBoundary(BoostClassifier(DecisionTreeClassifier(), T=10), dataset='iris',split=0.7)
+# plotBoundary(BoostClassifier(DecisionTreeClassifier(), T=10), dataset='vowel',split=0.7)
 
 
 # ## Bonus: Visualize faces classified using boosted decision trees
